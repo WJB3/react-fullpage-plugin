@@ -51,7 +51,7 @@ exports.cssLoaders = function (options) {
 
     return {
         css: generateLoaders(),
-        
+        less:generateLoaders("less")
     }
 }
 

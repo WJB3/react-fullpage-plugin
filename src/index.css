@@ -10,7 +10,7 @@ html,body,#root{
     display: none;
 }
 .react-scroll-container{
-    transition: all ease 1s;
+    transition: all ease 700ms;
 }
 .react-fullpage-container{
     position: absolute;
@@ -19,7 +19,7 @@ html,body,#root{
     left: 0;
     right: 0;
     overflow: hidden;
-
+    height:100%;
 }
 .react-scroll-container img{
     display: block;

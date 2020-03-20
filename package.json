@@ -11,6 +11,8 @@
   "author": "wujiabao",
   "license": "ISC",
   "dependencies": {
+    "@fullpage/react-fullpage": "^0.1.17",
+    "less-loader": "^5.0.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "^5.0.1",

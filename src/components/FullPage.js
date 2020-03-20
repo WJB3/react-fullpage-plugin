@@ -15,18 +15,16 @@ class FullPage extends Component{
             //显示滚动盒子
             isShow:false,
             //是否允许滚动
-            isAllowScroll:true,
-            api:{
-                setAllowScrolling:this.setAllowScrolling
-            }
+            isAllowScroll:true
         }
         this.fullPageRef=React.createRef();
         this.scrollPageRef=React.createRef();
-        
     }
 
     static defaultProps={
-        direction:"vertical"
+        direction:"vertical",//垂直方向
+        verticalCentered:false,//垂直时内容是否垂直居中
+        verticalLoop:false,//垂直时是否循环
     }
 
     componentDidMount(){
@@ -83,6 +81,23 @@ class FullPage extends Component{
                 this.move(this.state.fullPage.current);
             })
         }
+        if(this.props.verticalLoop){
+            if((this.state.fullPage.current+1)>len){
+                this.scrollPageRef.current.style.transitionDuration="0s";
+                this.move(0); 
+                setTimeout(() => {  
+                    this.scrollPageRef.current.style.transitionDuration ="700ms";
+                    this.move(1); 
+                    this.setState({
+                        fullPage:{
+                            ...this.state.fullPage,
+                            current:1
+                        }
+                    })
+                }, 0);
+            }
+        }
+        
     }
 
     prev=()=>{
@@ -99,7 +114,6 @@ class FullPage extends Component{
     }
 
     move=(index)=>{
-        console.log(index)
         // 为了防止滚动多次滚动，需要通过一个变量来控制是否滚动
         this.setState({
             fullPage:{
@@ -131,7 +145,7 @@ class FullPage extends Component{
         //判断是垂直滚动还是横向滚动
         if(this.props.direction==="vertical"){//垂直
             displacement=-(index-1)*height+'px';
-            this.scrollPageRef.current.style.transform=`translateY(${displacement})`
+            this.scrollPageRef.current.style.transform=`translate3d(0px,${displacement},0px)`
         }else{
             displacement=-(index-1)*width+'px';
             this.scrollPageRef.current.style.transform=`translateX(${displacement})`
@@ -157,7 +171,11 @@ class FullPage extends Component{
         this.props.children.forEach((item)=>{
             item.ref.current.style.height=`${height}px`;
             item.ref.current.style.width=`${width}px`;
-            
+            if(this.props.verticalCentered){
+                item.ref.current.style.display="flex";
+                item.ref.current.style.alignItems="center";
+                item.ref.current.style.justifyContent="center";
+            }
         })
         //显示滚动盒子
         this.setState({
